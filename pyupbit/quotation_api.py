@@ -129,7 +129,7 @@ def get_ohlcv(ticker="KRW-BTC", interval="day", count=200, to=None, period=0.1):
                                 "trade_price": "close",
                                 "candle_acc_trade_volume": "volume", 
                                 "candle_acc_trade_price": "value"})
-        return df
+        return df, req_limit_info
     except Exception as x:
         return None
 

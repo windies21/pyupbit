@@ -94,9 +94,9 @@ class Upbit:
         """
         url = "https://api.upbit.com/v1/accounts"
         headers = self._request_headers()
-        result = _send_get_request(url, headers=headers)
+        result, limit = _send_get_request(url, headers=headers)
         if contain_req:
-            return result
+            return result, limit
         else:
             return result[0]
 
@@ -115,7 +115,7 @@ class Upbit:
             if '-' in ticker:
                 ticker = ticker.split('-')[1]
 
-            balances, req = self.get_balances(contain_req=True)
+            balances, limit = self.get_balances(contain_req=True)
 
             # search the current currency
             balance = 0
@@ -125,7 +125,7 @@ class Upbit:
                     break
 
             if contain_req:
-                return balance, req
+                return balance, limit
             else:
                 return balance
         except Exception as x:
@@ -256,7 +256,7 @@ class Upbit:
         except Exception as x:
             print(x.__class__.__name__)
             return None
-    
+
 
     #    개별 주문 조회 
     def get_order(self, ticker_or_uuid, state='wait', kind='normal', contain_req=False):
@@ -278,7 +278,7 @@ class Upbit:
                 url = "https://api.upbit.com/v1/order"
                 data = {'uuid': ticker_or_uuid}
                 headers = self._request_headers(data)
-                result = _send_get_request(url, headers=headers, data=data)
+                result, limit = _send_get_request(url, headers=headers, data=data)
             else :
 
                 url = "https://api.upbit.com/v1/orders"
@@ -288,10 +288,10 @@ class Upbit:
                         'order_by': 'desc'
                         }
                 headers = self._request_headers(data)
-                result = _send_get_request(url, headers=headers, data=data)
+                result, limit = _send_get_request(url, headers=headers, data=data)
 
             if contain_req:
-                return result
+                return result, limit
             else:
                 return result[0]
         except Exception as x:
@@ -384,9 +384,9 @@ class Upbit:
                     "price": str(price),
                     "ord_type": "price"}
             headers = self._request_headers(data)
-            result = _send_post_request(url, headers=headers, data=data)
+            result, limit = _send_post_request(url, headers=headers, data=data)
             if contain_req:
-                return result
+                return result, limit
             else:
                 return result[0]
         except Exception as x:
@@ -408,9 +408,9 @@ class Upbit:
                     "volume": str(volume),
                     "ord_type": "market"}
             headers = self._request_headers(data)
-            result = _send_post_request(url, headers=headers, data=data)
+            result, limit = _send_post_request(url, headers=headers, data=data)
             if contain_req:
-                return result
+                return result, limit
             else:
                 return result[0]
         except Exception as x:
