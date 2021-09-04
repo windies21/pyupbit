@@ -31,5 +31,3 @@ def test_get_tick_size_defaults():
     # hoga >= 0
     assert 0.01 == get_tick_size(0.011) 
     assert 0.01 == get_tick_size(0.019) 
-
-

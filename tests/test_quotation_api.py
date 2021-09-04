@@ -25,7 +25,7 @@ def test_get_tickers_with_limit_info():
 
 
 def test_get_ohlcv_defaults():
-    resp = get_ohlcv()
+    resp = get_ohlcv()[0]
     assert isinstance(resp, pd.DataFrame)
 
 

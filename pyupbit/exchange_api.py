@@ -434,9 +434,9 @@ class Upbit:
                     "price": str(price),
                     "ord_type": "limit"}
             headers = self._request_headers(data)
-            result = _send_post_request(url, headers=headers, data=data)
+            result, limit = _send_post_request(url, headers=headers, data=data)
             if contain_req:
-                return result
+                return result, limit
             else:
                 return result[0]
         except Exception as x:
