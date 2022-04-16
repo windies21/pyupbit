@@ -1,4 +1,6 @@
 import re
+
+import aiohttp
 import requests
 import json
 from pyupbit.errors import (UpbitError, 
@@ -49,6 +51,26 @@ def _call_public_api(url, **params):
         return data, limit
     else:
         raise_error(resp)
+
+
+async def _async_call_public_api(url, **params):
+    """async call get type api
+
+    Args:
+        url (str): REST API url
+
+    Returns:
+        tuple: (data, req_limit_info)
+    """
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, params=params) as resp:
+            if HTTP_RESP_CODE_START <= resp.status < HTTP_RESP_CODE_END:
+                remaining_req = resp.headers.get('Remaining-Req')
+                limit = _parse_remaining_req(remaining_req)
+                data = await resp.json()
+                return data, limit
+            else:
+                raise_error(resp)
 
 
 def _send_post_request(url, headers=None, data=None):

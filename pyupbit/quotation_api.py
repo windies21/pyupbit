@@ -10,7 +10,7 @@ import datetime
 import pandas as pd
 import sys
 import time
-from pyupbit.request_api import _call_public_api
+from pyupbit.request_api import _call_public_api, _async_call_public_api
 from pyupbit.errors import UpbitError, TooManyRequests, raise_error
 import requests
 import re
@@ -79,7 +79,7 @@ def get_url_ohlcv(interval):
     return url
 
 
-def get_ohlcv(ticker="KRW-BTC", interval="day", count=200, to=None, period=0.1):
+async def get_ohlcv(ticker="KRW-BTC", interval="day", count=200, to=None, period=0.1):
     MAX_CALL_COUNT = 200
     try:
         url = get_url_ohlcv(interval=interval)
@@ -101,7 +101,7 @@ def get_ohlcv(ticker="KRW-BTC", interval="day", count=200, to=None, period=0.1):
             to = to.astimezone(datetime.timezone.utc)
             to = to.strftime("%Y-%m-%d %H:%M:%S")
 
-            contents, req_limit_info = _call_public_api(url, market=ticker, count=query_count, to=to)
+            contents, req_limit_info = await _async_call_public_api(url, market=ticker, count=query_count, to=to)
             dt_list = [datetime.datetime.strptime(x['candle_date_time_kst'], "%Y-%m-%dT%H:%M:%S") for x in contents]
             df = pd.DataFrame(contents, 
                               columns=[

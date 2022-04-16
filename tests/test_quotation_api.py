@@ -24,9 +24,10 @@ def test_get_tickers_with_limit_info():
     assert isinstance(limit_info, dict)
 
 
-def test_get_ohlcv_defaults():
-    resp = get_ohlcv()[0]
-    assert isinstance(resp, pd.DataFrame)
+@pytest.mark.asyncio
+async def test_get_ohlcv_defaults():
+    resp = await get_ohlcv()
+    assert isinstance(resp[0], pd.DataFrame)
 
 
 def test_get_current_price_defaults():
