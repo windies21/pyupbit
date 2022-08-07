@@ -97,9 +97,9 @@ def raise_error(resp):
     name = error.get('name')
     code = resp.status_code
 
-    print(code)
-    print(message)
-    print(name)
+    # print(code)
+    # print(message)
+    # print(name)
 
     if code == 429:
         raise TooManyRequests()
