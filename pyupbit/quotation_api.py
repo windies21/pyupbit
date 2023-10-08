@@ -102,6 +102,7 @@ async def get_ohlcv(ticker="KRW-BTC", interval="day", count=200, to=None, period
             to = to.strftime("%Y-%m-%d %H:%M:%S")
 
             contents, req_limit_info = await _async_call_public_api(url, market=ticker, count=query_count, to=to)
+            # contents, req_limit_info = _call_public_api(url, market=ticker, count=query_count, to=to)
             dt_list = [datetime.datetime.strptime(x['candle_date_time_kst'], "%Y-%m-%dT%H:%M:%S") for x in contents]
             df = pd.DataFrame(contents, 
                               columns=[
